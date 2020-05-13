@@ -39,16 +39,9 @@ class Member:
         del self.movies[movie]
         return "Uspjesno ste vratili film {}".format(movie)
 
-class Database:
-    def __init__(self, file_name):
-        self.file_name = file_name
-        with open(file_name) as f:
-            self.file_lines = f.readlines()
-    def print(self):
-        for i in self.file_lines:
-            print(i)
 
 
+'''
 p = Movie(["The Matrix", 1997, 120])
 mem = Member([ "Ivan", "Milinovic", 1])
 print(mem.print_movies())
@@ -57,3 +50,4 @@ print(mem.print_movies())
 print(mem.remove_movie(p))
 print(mem.print_movies())
 print(mem.fees)
+'''
