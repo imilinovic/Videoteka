@@ -1,4 +1,3 @@
-from member import Member
 from movie import Movie
 
 class Database_movie:
@@ -16,7 +15,6 @@ class Database_movie:
     def update_file(self):
         open(self.file_name, "w").close()
         with open(self.file_name, 'w') as f:
-            print( len(self.file_lines) )
             for item in self.file_lines:
                 f.write(item + '\n')
         f.close()
@@ -29,7 +27,14 @@ class Database_movie:
         self.movies.insert(index, movie)
         self.update_file()
 
-tmp = Database_movie("data.txt")
-mov = Movie([ "The Matrix", "1999", 122, 1, "admin"])
-tmp.add_to_index(5, mov)
-tmp.print()
+    def delete_index(self, index):
+        del self.file_lines[index]
+        del self.movies[index]
+        self.update_file()
+
+
+#tmp = Database_movie("data.txt")
+#mov = Movie([ "The Matrix", "1999", 122, 1, "admin"])
+#tmp.delete_index(0)
+#tmp.add_to_index(5, mov)
+#tmp.print()

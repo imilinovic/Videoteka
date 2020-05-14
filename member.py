@@ -6,13 +6,25 @@ class Member:
     max_date = 10
     fee_per_day = 1
     def __init__(self, list):
-        self.name = list[0]
-        self.last_name = list[1]
-        self.id = list[2]
-        self.fees = 0
-        self.movies = {}
+        self.name = str(list[0])
+        self.last_name = str(list[1])
+        self.id = str(list[2])
+        self.fees = list[3]
+        self.movies = list[4]
+    def __str__(self):
+        return self.name + ' ' + self.last_name + ' ' + self.id
 
-    def print_movies(self):
+    def convert(self):
+        ret = [ self.name, '|', self.last_name, '|', self.id, '|', str(self.fees), '|' ]
+        temp = []
+        for movie, date in self.movies.items():
+            datum = str(date.day) + '.' + str(date.month) + '.' + str(date.year)
+            temp.append( movie.convert() + ':' + datum + '&' )
+        spoji1 = ''.join(ret)
+        spoji2 = ''.join(temp)
+        return spoji1 + spoji2
+
+    def return_movies(self):
         if len(self.movies) == 0:
             return "Nemate posudenih filmova"
         ret = []
