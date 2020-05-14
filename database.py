@@ -1,22 +1,35 @@
 from member import Member
 from movie import Movie
 
-class Database_member:
+class Database_movie:
     def __init__(self, file_name):
         self.file_name = file_name
-        with open(file_name) as self.file:
-            self.file_lines = self.file.readlines()
+        with open(file_name) as f:
+            self.file_lines = f.read().splitlines()
+        f.close()
+
+        self.movies = []
+        for item in self.file_lines:
+            temp = item.split(';')
+            self.movies.append(Movie([temp[0], temp[1], temp[2], temp[3], temp[4]]))
+
+    def update_file(self):
+        open(self.file_name, "w").close()
+        with open(self.file_name, 'w') as f:
+            print( len(self.file_lines) )
+            for item in self.file_lines:
+                f.write(item + '\n')
+        f.close()
+
     def print(self):
-        for i in self.file_lines:
-            print(i)
-    def add_to_index(self, index, member):
-        self.file_lines.insert(index, movie)
-        self.file.write(self.file_lines)
-    def finish(self):
-        self.file.close()
-    # ime prezime id fees movies
+        print(self.file_lines)
+
+    def add_to_index(self, index, movie):
+        self.file_lines.insert(index, movie.convert())
+        self.movies.insert(index, movie)
+        self.update_file()
 
 tmp = Database_movie("data.txt")
-mem = Member([ "Ivan", "Milinovic", 1])
-tmp.add_to_index(1, )
-print(tmp.file_lines)
+mov = Movie([ "The Matrix", "1999", 122, 1, "admin"])
+tmp.add_to_index(5, mov)
+tmp.print()
