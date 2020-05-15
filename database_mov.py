@@ -47,7 +47,7 @@ class Database_movie:
             if i >= len(self.movies):
                 break
             if name in self.movies[i].name:
-                ret.append(self.movies[i].name)
+                ret.append(self.movies[i])
         return ret
 
 #tmp = Database_movie("data.txt")

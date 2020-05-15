@@ -34,8 +34,8 @@ class Member:
         return ''.join(ret)
 
     def add_movie(self, movie, date):
-        if len(self.movies) == self.max_movies:
-            return "Već ste posudili {} filmova, vratite jedan od njih pa onda možete posuditi novi".format(max_movies)
+        if len(self.movies) >= self.max_movies:
+            return "Već ste posudili {} filmova, vratite jedan od njih pa onda možete posuditi novi".format(self.max_movies)
 
         end_date = date + datetime.timedelta(days=self.max_date)
         self.movies[movie] = end_date
@@ -43,7 +43,11 @@ class Member:
 
     def remove_movie(self, movie):
         end_date = self.movies[movie]
-        delta_date = end_date - datetime.datetime.now()
+        end_date = datetime.date(end_date.year, end_date.month, end_date.day)
+        now = datetime.datetime.now()
+        now = datetime.date(now.year, now.month, now.day)
+
+        delta_date = end_date - now
         if delta_date.days > self.max_date:
             val = (delta_date.days - self.max_date) * self.fee_per_day
             self.fees += val
