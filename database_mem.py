@@ -29,7 +29,6 @@ class Database_member:
                 temp_movie = Movie([movie_list[0], movie_list[1], movie_list[2], movie_list[3], movie_list[4]])
                 temp_date = datetime.date( int(date_list[2]), int(date_list[1]), int(date_list[0]) )
                 dict[temp_movie] = temp_date
-
             self.members.append(Member([name, last_name, id, fees, dict]))
 
     def update_file(self):
@@ -38,6 +37,28 @@ class Database_member:
             for item in self.file_lines:
                 f.write(item + '\n')
         f.close()
+
+    def find_by_id(self, id):
+        lo = 0
+        hi = len(self.members) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if self.members[mid].id < str(id):
+                lo = mid + 1
+            else:
+                hi = mid
+        return self.members[lo].id == id
+
+    def find_bigger_id(self, id):
+        lo = 0
+        hi = len(self.members) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if self.members[mid].id < str(id):
+                lo = mid + 1
+            else:
+                hi = mid
+        return lo
 
     def add_to_index(self, index, member):
         self.file_lines.insert(index, member.convert())
@@ -49,8 +70,8 @@ class Database_member:
         del self.members[index]
         self.update_file()
 
-test = Database_member("data1.txt")
-test.delete_index(2)
+test = Database_member("members.txt")
+#test.delete_index(2)
 #curr_date = datetime.datetime.now()
 #mov1 = Movie(["The Matrix", 1992, 122, 2, 3])
 #list = { mov1 : curr_date }

@@ -1,0 +1,79 @@
+from movie import Movie
+from member import Member
+from database_mov import Database_movie
+from database_mem import Database_member
+from tkinter import *
+from random import randint
+
+def random_with_n_digits(n):
+    range_start = 10 ** (n - 1)
+    range_end = (10 ** n) - 1
+    return randint(range_start, range_end)
+
+
+class Videoteka:
+
+    def __init__(self, title):
+        self.root = Tk()
+        self.root.title(title)
+        self.root.geometry('400x200')
+        self.movies = Database_movie("movies.txt")
+        self.members = Database_member("members.txt")
+
+    def create_id(self):
+        id = random_with_n_digits(9)
+        while self.members.find_by_id(id):
+            id = random_with_n_digits(9)
+        return id
+
+    def create_account(self, window, entries):
+        for entry in entries:
+            if not entry.get():
+                fail = Label(window, text="Niste upisali sve podatke", font="Calibri 15")
+                fail.place(relx=0.5, rely=0.8, anchor=CENTER)
+                return
+
+        member_info = [ entries[0].get(), entries[1].get(), self.create_id(), 0, {} ]
+        new_member = Member(member_info)
+        self.members.add_to_index( self.members.find_bigger_id(new_member.id), new_member )
+        show_id = Button(window, text="Vaš id je " + str(new_member.id), font="Calibri 20", command = lambda:window.destroy())
+        show_id.pack()
+
+    def register(self):
+        window = Toplevel(self.root)
+        window.geometry('400x300')
+
+        text = ["Ime:", "Prezime:"]
+        entries = []
+        for txt in text:
+            tmp1 = Label( window, text=txt, font="Calibri 20" )
+            tmp2 = Entry( window, text=txt, font="Calibri 20")
+            tmp1.pack()
+            tmp2.pack()
+            entries.append(tmp2)
+
+        done = Button( window, text="Napravi ID", font="Calibri 20", command = lambda : self.create_account(window, entries))
+        done.pack()
+
+    def login(self, entry):
+        print("OK")
+
+    def display_login(self):
+        welcome_message = Label( self.root, text="Dobrodošli u videoteku", font="Calibri 25")
+        welcome_message.pack()
+
+        entry_text = Label( self.root, text="Ovdje upišite svoj ID", font="Calibri 15")
+        entry_text.pack()
+        entry = Entry( self.root )
+        entry.pack()
+        login_id = Button( self.root, text="Login", font="Calibri 15",
+                            command = lambda : self.login(entry))
+        login_id.place(relx=0.5, rely=0.60, anchor=CENTER)
+        register_id = Button( self.root, text="Nemam svoj ID", font="Calibri 15",
+                              command = lambda : self.register() )
+        register_id.place(relx=0.5, rely=0.85, anchor=CENTER)
+
+
+main = Videoteka("Videoteka")
+main.display_login()
+main.root.mainloop()
