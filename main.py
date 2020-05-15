@@ -12,7 +12,6 @@ def random_with_n_digits(n):
 
 
 class Videoteka:
-
     def __init__(self, title):
         self.root = Tk()
         self.root.title(title)
@@ -55,8 +54,37 @@ class Videoteka:
         done = Button( window, text="Napravi ID", font="Calibri 20", command = lambda : self.create_account(window, entries))
         done.pack()
 
+    def get_movies(self, options, entry):
+        movie_name = entry.get()
+        movies = self.movies.get_movies(movie_name)
+        print(movies)
+
+    def borrow_movie(self, window, id, id_pos):
+        options = Toplevel(window)
+        options.geometry('400x400')
+        label = Label(options, text="Unesite ime filma", font="Calibri 20")
+        label.pack()
+        entry = Entry(options, font="Calibri 20")
+        entry.pack()
+        search = Button(options, text="Pretrazi", font="Calibri 20", command=lambda:self.get_movies(options, entry))
+        search.pack()
+
     def login(self, entry):
-        print("OK")
+        id = entry.get()
+        if not self.members.find_by_id(id):
+            window = Toplevel(self.root)
+            window.geometry('200x200')
+            button = Button(window, text="Nepostojeci ID", font="Calibri 20", height=200, width=200, command = lambda:window.destroy())
+            button.pack()
+            return None
+
+        id_pos = self.members.find_bigger_id(id)
+        print(id_pos)
+        window = Toplevel(self.root)
+        window.geometry('300x400')
+
+        button1 = Button(window, text="Posudi film", font="Calibri 20", command=lambda:self.borrow_movie(window, id, id_pos))
+        button1.pack()
 
     def display_login(self):
         welcome_message = Label( self.root, text="Dobrodošli u videoteku", font="Calibri 25")

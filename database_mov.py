@@ -32,6 +32,23 @@ class Database_movie:
         del self.movies[index]
         self.update_file()
 
+    def get_movies(self, name):
+        ret = []
+        lo = 0
+        hi = len(self.movies) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if self.movies[mid].name < str(name):
+                lo = mid + 1
+            else:
+                hi = mid
+
+        for i in range (lo + 3):
+            if i >= len(self.movies):
+                break
+            if name in self.movies[i].name:
+                ret.append(self.movies[i].name)
+        return ret
 
 #tmp = Database_movie("data.txt")
 #mov = Movie([ "The Matrix", "1999", 122, 1, "admin"])
