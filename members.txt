@@ -1,4 +1,4 @@
-Ivan|Milinovic|123123123|0|Rane;1985;120;1;123123123:26.5.2020&Harry Potter;2005;97;802856408;admin:26.5.2020&
+Ivan|Milinovic|123123123|0|District 9;1999;122;1;123123123:26.5.2020&Harry Potter;2005;97;802856408;admin:26.5.2020&Lepa sela lepo gore;1989;115;119625236;admin:26.5.2020&
 Rade|Made|147384457|0|
 Storm|Razer|177208636|0|
 Ivan|Milinovic|234234234|0|The Matrix;1992;122;2;3:14.5.2020&The Matrix;1992;122;2;3:14.5.2020&

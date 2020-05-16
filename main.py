@@ -60,7 +60,7 @@ class Videoteka:
         new_window = Toplevel(window)
         new_window.geometry('700x700')
         txt = self.members.members[id_pos].add_movie(movie, datetime.datetime.now())
-        if txt != 'lol':
+        if "vratite" not in txt:
             temp_member = self.members.members[id_pos]
             self.members.delete_index(id_pos)
             self.members.add_to_index(id_pos, temp_member)
@@ -74,9 +74,11 @@ class Videoteka:
         movie_name = entry.get()
         movies = self.movies.get_movies(movie_name)
 
+        cnt = 0
         for movie in movies:
             button = Button(options, text=movie.name, font="Calibri 20", command=lambda window = window, options = options, movie = movie, id_pos = id_pos :self.get_movie(window, options, movie, id_pos))
-            button.pack()
+            button.place(relx=0.5, rely=0.4 + cnt * 0.15, anchor=CENTER)
+            cnt += 1
 
     def borrow_movie(self, window, id, id_pos):
         options = Toplevel(window)
