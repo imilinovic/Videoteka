@@ -112,6 +112,49 @@ class Videoteka:
             button = Button(options, text=movie.name, font="Calibri 20", command=lambda window=window, options=options,movie=movie, id_pos = id_pos : self.return_movie(window, options, movie, id_pos))
             button.pack()
 
+    def create_id_movie(self):
+        id = random_with_n_digits(9)
+        while self.movies.exists(id):
+            id = random_with_n_digits(9)
+        return id
+
+    def add_movie(self, window, entries, new_window):
+        for entry in entries:
+            if not entry.get():
+                return None
+
+        data = []
+        for entry in entries:
+            data.append(entry.get())
+        data.append(self.create_id_movie())
+        data.append("admin")
+        new_movie = Movie(data)
+        pos = self.movies.get_movies(new_movie.name, True)
+        self.movies.add_to_index(pos, new_movie)
+        new_window.geometry('600x600')
+        done = Button(new_window, text="Uspjesno ste dodali film\n" + new_movie.__str__(), font="Calibri 13", height=600, width=600, command=lambda:new_window.destroy())
+        done.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+    def add_movies(self, window):
+        new_window = Toplevel(window)
+        new_window.geometry('400x400')
+        text = ["Ime:", "Godina izdavanja:", "Dužina u minutama:"]
+        entries = []
+        for txt in text:
+            label = Label(new_window, text=txt, font="Calibri 20")
+            label.pack()
+            entry = Entry(new_window, font="Calibri 20")
+            entry.pack()
+            entries.append(entry)
+        button = Button(new_window, text="Dodaj", font="Calibri 20", command=lambda:self.add_movie(window, entries, new_window))
+        button.pack()
+
+    def zakasnina(self, window, id, id_pos):
+        new_window = Toplevel(window)
+        new_window.geometry('400x400')
+        button = Button(new_window, text="Vaša zakasnina iznosi\n" + str(self.members.members[id_pos].fees) + "kn", font="Calibri 18",
+                        command=lambda:new_window.destroy(), width=400, height=400)
+        button.pack()
 
     def login(self, entry):
         id = entry.get()
@@ -131,6 +174,10 @@ class Videoteka:
         button1.pack()
         button2 = Button(window, text="Vrati film", font="Calibri 20", command=lambda:self.return_movies(window, id, id_pos))
         button2.pack()
+        button3 = Button(window, text="Dodaj film", font="Calibri 20", command=lambda:self.add_movies(window))
+        button3.pack()
+        button4 = Button(window, text="Zakasnina", font="Calibri 20", command=lambda:self.zakasnina(window, id, id_pos))
+        button4.pack()
 
     def display_login(self):
         welcome_message = Label( self.root, text="Dobrodošli u videoteku", font="Calibri 25")

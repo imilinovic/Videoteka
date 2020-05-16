@@ -70,7 +70,7 @@ class Database_member:
         del self.members[index]
         self.update_file()
 
-test = Database_member("members.txt")
+#test = Database_member("members.txt")
 #test.delete_index(2)
 #curr_date = datetime.datetime.now()
 #mov1 = Movie(["The Matrix", 1992, 122, 2, 3])
